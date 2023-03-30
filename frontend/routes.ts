@@ -1,8 +1,10 @@
 import type { Route } from '@vaadin/router';
-import Role from './generated/com/example/application/data/Role';
+import Role from './generated/net/myapp/application/data/Role';
 import { appStore } from './stores/app-store';
 import './views/helloworld/hello-world-view';
 import './views/main-layout';
+import './views/list/list-view';
+import './views/room/room-index'
 
 export type ViewRoute = Route & {
   title?: string;
@@ -24,20 +26,49 @@ export const hasAccess = (route: Route) => {
   return true;
 };
 
-export const views: ViewRoute[] = [
-  // place routes below (more info https://hilla.dev/docs/routing)
+
+const emptyViewRoute: ViewRoute[]=[];
+
+const adminView: ViewRoute[] = [
   {
-    path: '',
-    component: 'hello-world-view',
+    path: 'contact',
+    component: 'list-view',
     requiresLogin: true,
-    icon: '',
-    title: '',
+    icon: 'globe-solid',
+    title: 'Contact',
     action: async (_context, _command) => {
       if (!hasAccess(_context.route)) {
         return _command.redirect('login');
       }
+      await import('./views/about/about-view');
       return;
     },
+  },
+  {
+    path: 'room',
+    component: 'room-index',
+    requiresLogin: true,
+    icon: 'folder',
+    title: 'Kamar',
+    children: emptyViewRoute,
+    action: async (_context, _command) => {
+      if (!hasAccess(_context.route)) {
+        return _command.redirect('login');
+      }
+      await import('./views/about/about-view');
+      return;
+    },
+  },
+];
+
+export const views: ViewRoute[] = [
+  // place routes below (more info https://hilla.dev/docs/routing)
+  {
+    path:'Admin',
+    title:'Admin',
+    requiresLogin: true,
+    children: adminView,
+    icon: 'folder-open',
   },
   {
     path: 'hello',
@@ -45,6 +76,7 @@ export const views: ViewRoute[] = [
     requiresLogin: true,
     icon: 'globe-solid',
     title: 'Hello World',
+    children: emptyViewRoute,
     action: async (_context, _command) => {
       if (!hasAccess(_context.route)) {
         return _command.redirect('login');
@@ -58,6 +90,7 @@ export const views: ViewRoute[] = [
     requiresLogin: true,
     icon: 'file',
     title: 'About',
+    children:emptyViewRoute,
     action: async (_context, _command) => {
       if (!hasAccess(_context.route)) {
         return _command.redirect('login');

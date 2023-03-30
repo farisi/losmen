@@ -1,6 +1,6 @@
-package com.example.application.data.service;
+package net.myapp.application.data.service;
 
-import com.example.application.data.entity.User;
+import net.myapp.application.data.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

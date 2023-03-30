@@ -1,1 +1,23 @@
 @import url('./main-layout.css');
+
+list-view contact-form {
+    width:25em;
+}
+
+room-index contact-form {
+    width:25em;
+}
+
+[hidden] {
+    display: none;
+}
+
+@media (max-width:700px) {
+    list-view.editing .toolbar, list-view.editing .grid {
+        display: none;
+    }
+
+    list-view.editing contact-form {
+        width:90%;
+    }
+}

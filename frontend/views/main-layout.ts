@@ -10,21 +10,22 @@ import '@vaadin/scroller';
 import '@vaadin/tabs';
 import '@vaadin/tabs/vaadin-tab';
 import '@vaadin/vaadin-lumo-styles/vaadin-iconset';
-import type User from 'Frontend/generated/com/example/application/data/entity/User';
+import type User from 'Frontend/generated/net/myapp/application/data/entity/User';
 import { imageDataUrl } from 'Frontend/util';
 import { html, render } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { until } from 'lit/directives/until.js';
 import { logout } from '../auth';
 import { router } from '../index';
-import { hasAccess, views } from '../routes';
+import { hasAccess, ViewRoute, views } from '../routes';
 import { appStore } from '../stores/app-store';
-import { Layout } from './view';
+import { Layout, View } from './view';
 
 interface RouteInfo {
   path: string;
   title: string;
   icon: string;
+  children: ViewRoute[]
 }
 
 @customElement('main-layout')
@@ -38,19 +39,44 @@ export class MainLayout extends Layout {
         <vaadin-scroller slot="drawer" scroll-direction="vertical">
           <!-- vcf-nav is not yet an official component -->
           <!-- For documentation, visit https://github.com/vaadin/vcf-nav#readme -->
-          <vcf-nav aria-label="${appStore.applicationName}">
+          <vcf-nav aria-label="${appStore.applicationName}" collapsible>
             ${this.getMenuRoutes().map(
-              (viewRoute) => html`
-                <vcf-nav-item path=${router.urlForPath(viewRoute.path)}>
-                  <span
-                    class="navicon"
-                    style="--mask-image: url('line-awesome/svg/${viewRoute.icon}.svg')"
-                    slot="prefix"
-                    aria-hidden="true"
-                  ></span>
-                  ${viewRoute.title}
-                </vcf-nav-item>
-              `
+              (viewRoute) => {
+                if(viewRoute.children.length > 0) {
+                  return html`
+                  <vcf-nav-item>
+                    <vaadin-icon  slot="suffix"></vaadin-icon>
+                        <span
+                          class="navicon"
+                          style="--mask-image: url('line-awesome/svg/${viewRoute.icon}.svg')"
+                          slot="prefix"
+                          aria-hidden="true"
+                        ></span>
+                        ${viewRoute.title}
+                        ${viewRoute.children.map((route)=> 
+                          html `
+                              <vcf-nav-item path="${viewRoute.path+'/'+route.path}" slot="children" class="ml-2">
+                                ${route.title}
+                              </vcf-nav-item>
+                          `
+                        )}
+                  </vcf-nav-item>
+                    `
+                }
+                else {
+                  return html`
+                    <vcf-nav-item path=${router.urlForPath(viewRoute.path)}>
+                        <span
+                          class="navicon"
+                          style="--mask-image: url('line-awesome/svg/${viewRoute.icon}.svg')"
+                          slot="prefix"
+                          aria-hidden="true"
+                        ></span>
+                      ${viewRoute.title}
+                  </vcf-nav-item>
+                  `
+                }
+              }
             )}
           </vcf-nav>
         </vaadin-scroller>
@@ -123,6 +149,8 @@ export class MainLayout extends Layout {
   }
 
   private getMenuRoutes(): RouteInfo[] {
-    return views.filter((route) => route.title).filter((route) => hasAccess(route)) as RouteInfo[];
+    return views.filter((route) => route.title)
+      .filter((route) => hasAccess(route))
+      .filter((route)=>route.children) as RouteInfo[];
   }
 }

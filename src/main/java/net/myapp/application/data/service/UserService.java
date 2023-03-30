@@ -1,6 +1,6 @@
-package com.example.application.data.service;
+package net.myapp.application.data.service;
 
-import com.example.application.data.entity.User;
+import net.myapp.application.data.entity.User;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,6 +1,6 @@
-package com.example.application.data.entity;
+package net.myapp.application.data.entity;
 
-import com.example.application.data.Role;
+import net.myapp.application.data.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.hilla.Nonnull;
 import jakarta.persistence.Column;

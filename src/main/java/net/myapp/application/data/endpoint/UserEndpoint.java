@@ -1,7 +1,7 @@
-package com.example.application.data.endpoint;
+package net.myapp.application.data.endpoint;
 
-import com.example.application.data.entity.User;
-import com.example.application.security.AuthenticatedUser;
+import net.myapp.application.data.entity.User;
+import net.myapp.application.security.AuthenticatedUser;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import dev.hilla.Endpoint;
 import java.util.Optional;

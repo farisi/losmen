@@ -1,4 +1,4 @@
-package com.example.application.security;
+package net.myapp.application.security;
 
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import java.util.Base64;

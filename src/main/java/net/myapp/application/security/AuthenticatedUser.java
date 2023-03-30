@@ -1,7 +1,7 @@
-package com.example.application.security;
+package net.myapp.application.security;
 
-import com.example.application.data.entity.User;
-import com.example.application.data.service.UserRepository;
+import net.myapp.application.data.entity.User;
+import net.myapp.application.data.service.UserRepository;
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import java.util.Optional;
 import org.springframework.security.oauth2.jwt.Jwt;
