@@ -7,12 +7,14 @@ import { CrmStore } from './crm-store';
 import { UiStore } from './ui-store';
 import { RoomStore } from './room-store'
 import Role from 'Frontend/generated/net/myapp/application/data/Role';
+import { TransactionStore } from './transaction-store';
 
 export class AppStore {
   applicationName = 'Penginapan';
   crmStore = new CrmStore()
   uiStore = new UiStore();
   roomStore = new RoomStore();
+  transactionStore = new TransactionStore();
   // The location, relative to the base path, e.g. "hello" when viewing "/hello"
   location = '';
 
@@ -61,3 +63,4 @@ export const appStore = new AppStore();
 export const crmStore = appStore.crmStore;
 export const uiStore = appStore.uiStore;
 export const roomStore = appStore.roomStore;
+export const transactionStore = appStore.transactionStore;

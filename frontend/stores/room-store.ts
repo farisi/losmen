@@ -9,6 +9,7 @@ export class RoomStore {
 
     rooms : Room[] = [];
     status: RoomStatus[] = [];
+    
     constructor(){
         makeAutoObservable(this,{initFromServer: false,rooms:observable.shallow,status:observable.shallow},{autoBind:true})
         this.initFromServer();

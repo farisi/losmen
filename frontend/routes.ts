@@ -4,7 +4,8 @@ import { appStore } from './stores/app-store';
 import './views/helloworld/hello-world-view';
 import './views/main-layout';
 import './views/list/list-view';
-import './views/room/room-index'
+import './views/room/room-index';
+import './views/transactions/transaction-view';
 
 export type ViewRoute = Route & {
   title?: string;
@@ -31,20 +32,6 @@ const emptyViewRoute: ViewRoute[]=[];
 
 const adminView: ViewRoute[] = [
   {
-    path: 'contact',
-    component: 'list-view',
-    requiresLogin: true,
-    icon: 'globe-solid',
-    title: 'Contact',
-    action: async (_context, _command) => {
-      if (!hasAccess(_context.route)) {
-        return _command.redirect('login');
-      }
-      await import('./views/about/about-view');
-      return;
-    },
-  },
-  {
     path: 'room',
     component: 'room-index',
     requiresLogin: true,
@@ -55,7 +42,7 @@ const adminView: ViewRoute[] = [
       if (!hasAccess(_context.route)) {
         return _command.redirect('login');
       }
-      await import('./views/about/about-view');
+      await import('./views/room/room-index');
       return;
     },
   },
@@ -69,6 +56,20 @@ export const views: ViewRoute[] = [
     requiresLogin: true,
     children: adminView,
     icon: 'folder-open',
+  },
+  {
+    path:'transactions',
+    component:'transaction-view',
+    requiresLogin:true,
+    icon:'globe-solid',
+    title:'Reservasi',
+    children: emptyViewRoute,
+    action: async (_context, _command) => {
+      if(!hasAccess(_context.route)) {
+        return _command.redirect('login');
+      }
+      return;
+    }
   },
   {
     path: 'hello',

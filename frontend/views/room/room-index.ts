@@ -28,7 +28,7 @@ export class RoomIndex extends View {
                     @active-item-changed=${this.handleGridSelection}
                 >
                 <vaadin-grid-column path="name" header="Jenis Kamar" auto-width> </vaadin-grid-column>
-                <vaadin-grid-column path="number" header="Nomor Kamar" auto-width> </vaadin-grid-column>
+                <vaadin-grid-column path="id" header="Nomor Kamar" auto-width> </vaadin-grid-column>
                 <vaadin-grid-column path="floor" header="lantai" auto-width> </vaadin-grid-column>
                 <vaadin-grid-column path="status" header="Status" auto-width></vaadin-grid-column>
             </vaadin-grid>

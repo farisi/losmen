@@ -14,6 +14,7 @@ import java.util.ArrayList;
 @Endpoint
 @AnonymousAllowed
 public class RoomEndpoint {
+
     private RoomService roomSrv;
 
     public RoomEndpoint(RoomService roomSrv){
@@ -28,6 +29,7 @@ public class RoomEndpoint {
     @Nonnull
     public Room save(Room r){
         r.setStatus(RoomStatus.Vacant);
+        r.setId(r.getNumber());
         return roomSrv.save(r);
     }
     
@@ -47,5 +49,10 @@ public class RoomEndpoint {
     public void deleteRoom(@Nonnull Integer id){
         Room room = roomSrv.findById(id);
         roomSrv.delete(room);
+    }
+
+    @Nonnull
+    public List<@Nonnull Room> vacantRoom() {
+        return roomSrv.findVacantRooms();
     }
 }

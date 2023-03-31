@@ -2,9 +2,11 @@ package net.myapp.application.data.service;
 
 import org.springframework.stereotype.Service;
 
+import dev.hilla.Nonnull;
 import net.myapp.application.data.repository.RoomRepository;
 import java.util.List;
 import net.myapp.application.data.entity.Room;
+import net.myapp.application.data.entity.RoomStatus;
 
 @Service
 public class RoomService {
@@ -28,5 +30,9 @@ public class RoomService {
 
     public void delete(Room r) {
         roomRepo.delete(r);
+    }
+
+    public List<@Nonnull Room> findVacantRooms() {
+        return null;
     }
 }
