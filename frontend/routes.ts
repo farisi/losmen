@@ -64,8 +64,8 @@ const adminView: ViewRoute[] = [
 export const views: ViewRoute[] = [
   // place routes below (more info https://hilla.dev/docs/routing)
   {
-    path:'Admin',
-    title:'Admin',
+    path:'Master',
+    title:'Master',
     requiresLogin: true,
     children: adminView,
     icon: 'folder-open',

@@ -2,7 +2,7 @@ import '@vaadin/text-field';
 import '@vaadin/button';
 import '@vaadin/grid';
 import '@vaadin/grid/vaadin-grid-column';
-import { customElement } from 'lit/decorators';
+import { customElement } from 'lit/decorators.js';
 import { View } from '../view';
 import { html } from 'lit';
 import './contact-form'
