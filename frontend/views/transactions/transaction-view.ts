@@ -60,13 +60,12 @@ export class TransactionView extends View {
                   `
                 })}
           </vaadin-radio-group>
-            
+          
             <vaadin-text-field  label="No Identitas" ${field(model.carid)}></vaadin-text-field>
             <vaadin-select label="Kamar" .items="${this.items}" ${field(model.room.id)}></vaadin-select>
             <vaadin-date-time-picker label="Cek In Pada" ${field(model.check_in_at)}></vaadin-date-time-picker>
-
-            
-        </vaadin-form-layout>
+          </vaadin-form-layout>
+          
         <div class="flex gap-s m-m ">
               <vaadin-button theme="primary" @click=${this.save} >Check In</vaadin-button>
               <vaadin-button theme="error" >Delete</vaadin-button>
