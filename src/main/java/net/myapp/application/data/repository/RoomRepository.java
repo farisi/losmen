@@ -12,6 +12,6 @@ import net.myapp.application.data.entity.Room;
 public interface RoomRepository extends JpaRepository<Room,Integer>{
 
     @Query("SELECT r FROM Room r where r.status =: status")
-    List<@Nonnull Room> findVacantRooms(@Param("status") String status);
+    List<@Nonnull Room> findVacantRooms(@Param("status") Character status);
     
 }

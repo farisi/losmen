@@ -13,7 +13,10 @@ import jakarta.persistence.Table;
 @Table(name="transactions")
 public class Transaction extends AbstractEntity  {
 
+    @Column(columnDefinition="TIMESTAMP")
     private Timestamp check_in_at;
+
+    @Column(columnDefinition="TIMESTAMP")
     private Timestamp check_out_at;
     
     private String name;

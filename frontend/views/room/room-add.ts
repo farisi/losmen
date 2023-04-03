@@ -12,6 +12,7 @@ import '@vaadin/radio-group';
 import '@vaadin/confirm-dialog';
 import RoomStatus from "Frontend/generated/net/myapp/application/data/entity/StatusModel"
 import { dialogFooterRenderer, dialogRenderer } from '@vaadin/dialog/lit.js';
+import { uiStore } from "Frontend/stores/app-store";
 
 
 
@@ -69,6 +70,14 @@ export class RoomAdd extends View {
         <vaadin-button theme="error"  @click=${roomIndexStore.openDialog} >Delete</vaadin-button>
         <vaadin-button theme="tertiary" @click=${roomIndexStore.cancelEdit}>Cancel</vaadin-button>
       </div>
+
+      <vaadin-notification
+            theme=${uiStore.message.error ? 'error' : 'contrast'}
+            position="bottom-start"
+            .opened=${uiStore.message.open}
+            .renderer=${(root: HTMLElement) =>
+                (root.textContent = uiStore.message.text)}>
+      </vaadin-notification>
         `;
     }
 

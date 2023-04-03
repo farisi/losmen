@@ -18,8 +18,10 @@ public class Room {
     @Id
     private Integer id;
     private String name;
+
     @Min(value=100)
     private int number;
+    
     @Min(value=1)
     private int floor;
 

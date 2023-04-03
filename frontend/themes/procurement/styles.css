@@ -8,6 +8,41 @@ room-index contact-form {
     width:25em;
 }
 
+vaadin-text-field::part(input-field) {
+    background: rgb(255, 255, 169);
+    border: 1px solid gray;
+  }
+
+vaadin-date-picker::part(input-field) {
+    background: rgb(255, 255, 169);
+    border: 1px solid gray;
+    width:25rem;
+}
+vaadin-time-picker::part(input-field) {
+    background: rgb(255, 255, 169);
+    border: 1px solid gray;
+    width:15rem;
+}
+vaadin-text-field,vaadin-select,vaadin-radio-group {
+    width: 60rem;
+    margin-left: 20px;
+}
+
+vaadin-date-picker {
+    width: 5px;
+    margin-left: 20px;
+}
+
+vaadin-time-picker {
+    width: 5px;
+    margin-left: -45rem;
+}
+
+vaadin-text-field.bordered::part(input-field) {
+    background: green;
+    border: 1px solid gray;
+  }
+
 [hidden] {
     display: none;
 }
