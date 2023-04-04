@@ -33,6 +33,10 @@ public class RoomService {
     }
 
     public List<@Nonnull Room> findVacantRooms() {
-        return null;
+        return roomRepo.findByStatus(RoomStatus.Vacant);
+    }
+
+    public List<@Nonnull Room> findOccupiedRooms(){
+        return roomRepo.findByStatus(RoomStatus.Occupied);
     }
 }

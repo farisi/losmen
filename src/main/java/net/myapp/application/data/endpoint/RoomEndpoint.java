@@ -9,7 +9,6 @@ import java.util.List;
 import net.myapp.application.data.service.RoomService;
 import net.myapp.application.data.entity.Room;
 import net.myapp.application.data.entity.RoomStatus;
-import java.util.ArrayList;
 
 @Endpoint
 @AnonymousAllowed
@@ -33,19 +32,6 @@ public class RoomEndpoint {
         return roomSrv.save(r);
     }
     
-    public  @Nonnull RoomStatus[] listroom(){
-        return  RoomStatus.values();
-    }
-
-    @Nonnull
-    public List<@Nonnull String> listname(){
-        List<String> listname = new ArrayList<>();
-        listname.add("Occopied");
-        listname.add("Vacant");
-        listname.add("Maintaining");
-        return listname;
-    }
-
     public void deleteRoom(@Nonnull Integer id){
         Room room = roomSrv.findById(id);
         roomSrv.delete(room);
@@ -54,5 +40,16 @@ public class RoomEndpoint {
     @Nonnull
     public List<@Nonnull Room> vacantRoom() {
         return roomSrv.findVacantRooms();
+    }
+
+    @Nonnull
+    public List<@Nonnull Room> occupiedRoom(){
+        return roomSrv.findOccupiedRooms();
+    }
+
+    @Nonnull
+    public Room getRoom(Integer id){
+        System.out.println("ID Room : " +id);
+        return roomSrv.findById(id);
     }
 }

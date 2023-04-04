@@ -1,7 +1,7 @@
 import { customElement, state } from "lit/decorators.js";
 import { View } from "../view";
 import { html } from 'lit';
-import { roomStore } from "Frontend/stores/app-store";
+import { roomStore, transactionStore } from "Frontend/stores/app-store";
 import type { SelectItem } from '@vaadin/select';
 
 import '@vaadin/text-field';
@@ -56,7 +56,7 @@ export class TransactionView extends View {
           <vaadin-radio-group theme="vertical" ${field(model.tipe)} label="Ruangan">
                 ${cardtipes.map((value) =>{
                   return html `
-                  <vaadin-radio-button value="${value}" label="${value}"></vaadin-radio-button>
+                    <vaadin-radio-button value="${value}" label="${value}"></vaadin-radio-button>
                   `
                 })}
           </vaadin-radio-group>
@@ -81,7 +81,7 @@ export class TransactionView extends View {
     }
 
   async firstUpdated() {
-    const people = await roomStore.rooms;
+    const people = await transactionStore.rooms;
     this.items = people.map((person) => ({
       label: `${person.number} ${person.name}`,
       value: `${person.id}`,

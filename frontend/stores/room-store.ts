@@ -2,16 +2,18 @@ import RoomStatus from 'Frontend/generated/net/myapp/application/data/entity/Roo
 import { RoomEndpoint } from 'Frontend/generated/endpoints';
 import { makeAutoObservable, observable, runInAction } from 'mobx';
 
-import Room from '../generated/net/myapp/application/data/entity/Room';
 import { uiStore } from './app-store';
+import Room from 'Frontend/generated/net/myapp/application/data/entity/Room';
+
+
 
 export class RoomStore {
-
+    room: Room | null = null;
     rooms : Room[] = [];
     status: RoomStatus[] = [];
     
     constructor(){
-        makeAutoObservable(this,{initFromServer: false,rooms:observable.shallow,status:observable.shallow},{autoBind:true})
+        makeAutoObservable(this,{initFromServer: false,rooms:observable.shallow,status:observable.shallow,room:observable.shallow},{autoBind:true})
         this.initFromServer();
     }
 
@@ -50,6 +52,12 @@ export class RoomStore {
         else {
             this.rooms.push(saved);
         }
+    }
+
+    async searchRoom(saved: Room) {
+        const d = await RoomEndpoint.getRoom(saved.id);
+        this.room = d;
+        console.log(d);
     }
 
     async deleteRoom(room: Room){

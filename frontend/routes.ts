@@ -6,6 +6,8 @@ import './views/main-layout';
 import './views/list/list-view';
 import './views/room/room-index';
 import './views/transactions/transaction-view';
+import './views/transactions/check-out';
+import './views/transactions/searching-out';
 
 export type ViewRoute = Route & {
   title?: string;
@@ -48,17 +50,9 @@ const adminView: ViewRoute[] = [
   },
 ];
 
-export const views: ViewRoute[] = [
-  // place routes below (more info https://hilla.dev/docs/routing)
+const tranView: ViewRoute[] = [
   {
-    path:'Master',
-    title:'Master',
-    requiresLogin: true,
-    children: adminView,
-    icon: 'folder-open',
-  },
-  {
-    path:'transactions',
+    path:'reservasi',
     component:'transaction-view',
     requiresLogin:true,
     icon:'globe-solid',
@@ -70,6 +64,38 @@ export const views: ViewRoute[] = [
       }
       return;
     }
+  },
+  {
+    path:'checkout',
+    component: 'check-out',
+    requiresLogin:true,
+    icon:'globe-solid',
+    title:'Checkout',
+    children: emptyViewRoute,
+    action: async (_context, _command) => {
+      if(!hasAccess(_context.route)) {
+        return _command.redirect('login');
+      }
+      return;
+    }
+  }
+];
+
+export const views: ViewRoute[] = [
+  // place routes below (more info https://hilla.dev/docs/routing)
+  {
+    path:'Master',
+    title:'Master',
+    requiresLogin: true,
+    children: adminView,
+    icon: 'folder-open',
+  },
+  {
+    path:'transactions',
+    requiresLogin:true,
+    icon:'globe-solid',
+    title:'Transaksi',
+    children: tranView
   },
   {
     path: 'hello',

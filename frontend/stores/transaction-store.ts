@@ -8,16 +8,19 @@ import { transactionStore, uiStore } from "./app-store";
 export class TransactionStore {
 
     rooms : Room[] = [];
+    occupied: Room[] = [];
     transactions : Transaction[] = [];
 
     constructor(){
-        makeAutoObservable(this,{initFromServer: false,rooms:observable.shallow},{autoBind:true})
+        makeAutoObservable(this,{initFromServer: false,rooms:observable.shallow,occupied:observable.shallow},{autoBind:true})
         this.initFromServer();
     }
 
     async initFromServer(){
         const data = await RoomEndpoint.vacantRoom();
+        const dataOccopied  = await RoomEndpoint.occupiedRoom();
         this.rooms = data
+        this.occupied = dataOccopied;
     }
 
     async saveTransaction(transaction: Transaction){

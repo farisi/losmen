@@ -4,15 +4,20 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import net.myapp.application.data.entity.Room;
+import net.myapp.application.data.entity.RoomStatus;
 import net.myapp.application.data.entity.Transaction;
+import net.myapp.application.data.repository.RoomRepository;
 
 @Service
 public class TransactionService {
     
     TransactionRepository trRepo;
+    RoomRepository roomRepo;
 
-    public TransactionService(TransactionRepository trRepo) {
+    public TransactionService(TransactionRepository trRepo, RoomRepository roomRepo) {
         this.trRepo = trRepo;
+        this.roomRepo = roomRepo;
     }
 
     public List<Transaction> getAll(){
@@ -24,6 +29,10 @@ public class TransactionService {
     }
 
     public Transaction save(Transaction transaction){
+        Room room = roomRepo.findById(transaction.getRoom().getId()).orElseThrow(() -> new RuntimeException(
+            "Could not find Company with ID " + transaction.getRoom().getId()));
+        transaction.setRoom(room) ;
+        room.setStatus(RoomStatus.Occupied);
         return trRepo.save(transaction);
     }
 
