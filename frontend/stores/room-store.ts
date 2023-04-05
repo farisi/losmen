@@ -19,7 +19,9 @@ export class RoomStore {
 
     async initFromServer(){
         const data = await RoomEndpoint.getRooms();
-        this.rooms = data
+        runInAction(() => {
+            this.rooms = data
+        });
     }
 
     async saveRoom(room: Room){
@@ -54,10 +56,9 @@ export class RoomStore {
         }
     }
 
-    async searchRoom(saved: Room) {
+    async  searchRoom(saved: Room) {
         const d = await RoomEndpoint.getRoom(saved.id);
         this.room = d;
-        console.log(d);
     }
 
     async deleteRoom(room: Room){

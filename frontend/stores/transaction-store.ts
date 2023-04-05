@@ -1,7 +1,7 @@
 import { RoomEndpoint, TransactionEndpoint } from "Frontend/generated/endpoints";
 import Room from "Frontend/generated/net/myapp/application/data/entity/Room";
 import Transaction from "Frontend/generated/net/myapp/application/data/entity/Transaction";
-import { makeAutoObservable, observable } from "mobx";
+import { makeAutoObservable, observable, runInAction } from "mobx";
 import { transactionStore, uiStore } from "./app-store";
 
 
@@ -10,17 +10,29 @@ export class TransactionStore {
     rooms : Room[] = [];
     occupied: Room[] = [];
     transactions : Transaction[] = [];
+    transaction: Transaction|null = null;
 
     constructor(){
-        makeAutoObservable(this,{initFromServer: false,rooms:observable.shallow,occupied:observable.shallow},{autoBind:true})
+        makeAutoObservable(
+            this,
+            {initFromServer: true,
+                rooms:observable.shallow,
+                occupied:observable.shallow,
+                transaction:observable.ref 
+            },
+            {autoBind:true}
+        )
         this.initFromServer();
     }
 
     async initFromServer(){
         const data = await RoomEndpoint.vacantRoom();
         const dataOccopied  = await RoomEndpoint.occupiedRoom();
-        this.rooms = data
-        this.occupied = dataOccopied;
+
+        runInAction(() => {
+            this.rooms = data
+            this.occupied = dataOccopied;
+        });
     }
 
     async saveTransaction(transaction: Transaction){
@@ -37,6 +49,11 @@ export class TransactionStore {
         catch(e){
             uiStore.showError("terjadi kesalahan ");
         }
+    }
+
+    async getBookedRoom(rm : Room){
+        const t = await TransactionEndpoint.getRoomBooked(rm.id);
+        this.transaction = t;
     }
 
     async deleteTransaction(tran : Transaction){

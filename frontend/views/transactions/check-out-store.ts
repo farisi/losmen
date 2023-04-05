@@ -1,10 +1,13 @@
 import Room from "Frontend/generated/net/myapp/application/data/entity/Room";
 import Transaction from "Frontend/generated/net/myapp/application/data/entity/Transaction";
-import { roomStore } from "Frontend/stores/app-store";
+import { roomStore, transactionStore } from "Frontend/stores/app-store";
 import { makeAutoObservable } from "mobx";
 
 
 class CheckOutStore {
+
+    selectedRoom: Room | null = null;
+
     constructor() {
         makeAutoObservable(
           this,
@@ -15,8 +18,11 @@ class CheckOutStore {
     }
 
     async searchRoom(room: Room){
-        roomStore.searchRoom(room)
-        console.log(room.id);
+        await transactionStore.getBookedRoom(room);
+    }
+
+    setSelectedRoom(room: Room){
+        this.selectedRoom=room;
     }
 }
 

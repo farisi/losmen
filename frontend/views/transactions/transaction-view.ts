@@ -17,7 +17,9 @@ import '@vaadin/date-time-picker';
 
 @customElement('transaction-view')
 export class TransactionView extends View {
+  
   binder = new Binder(this,TransactionModel)
+
   @state()
   items:SelectItem[] = [];
 
@@ -52,15 +54,14 @@ export class TransactionView extends View {
         return html `
           <h3>List Transaksi</h3>
           <vaadin-form-layout class="flex flex-col">
-          <vaadin-text-field ${field(model.name)} label="Nama"></vaadin-text-field>
-          <vaadin-radio-group theme="vertical" ${field(model.tipe)} label="Ruangan">
-                ${cardtipes.map((value) =>{
-                  return html `
-                    <vaadin-radio-button value="${value}" label="${value}"></vaadin-radio-button>
-                  `
-                })}
-          </vaadin-radio-group>
-          
+            <vaadin-text-field ${field(model.name)} label="Nama"></vaadin-text-field>
+            <vaadin-radio-group theme="vertical" ${field(model.tipe)} label="Ruangan">
+                  ${cardtipes.map((value) =>{
+                    return html `
+                      <vaadin-radio-button value="${value}" label="${value}"></vaadin-radio-button>
+                    `
+                  })}
+            </vaadin-radio-group>
             <vaadin-text-field  label="No Identitas" ${field(model.carid)}></vaadin-text-field>
             <vaadin-select label="Kamar" .items="${this.items}" ${field(model.room.id)}></vaadin-select>
             <vaadin-date-time-picker label="Cek In Pada" ${field(model.check_in_at)}></vaadin-date-time-picker>
@@ -81,7 +82,7 @@ export class TransactionView extends View {
     }
 
   async firstUpdated() {
-    const people = await transactionStore.rooms;
+    const people =  transactionStore.rooms;
     this.items = people.map((person) => ({
       label: `${person.number} ${person.name}`,
       value: `${person.id}`,

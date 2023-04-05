@@ -39,4 +39,8 @@ public class TransactionService {
     public void delete(Transaction transaction){
         trRepo.delete(transaction);
     }
+
+    public Transaction getRoomBooked(Long roomid) {
+        return trRepo.findBookedByRoom(roomid);
+    }
 }

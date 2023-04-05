@@ -8,6 +8,7 @@ import { checkOutStore } from "./check-out-store";
 import { transactionStore } from "Frontend/stores/app-store";
 
 import '@vaadin/select'
+import { runInAction } from "mobx";
 
 @customElement('searching-out')
 export class SearchOut extends View {
@@ -15,6 +16,11 @@ export class SearchOut extends View {
     @state()
     items:SelectItem[] = [];
     binder = new Binder(this,RoomModel);
+
+    constructor(){
+        super();
+        runInAction(() => this.firstUpdated);
+    }
 
     connectedCallback(): void {
         super.connectedCallback();
@@ -24,7 +30,7 @@ export class SearchOut extends View {
     render(){
         const {model} = this.binder
         return html `
-            <vaadin-select .items="${this.items}" />
+            <vaadin-select .items="${this.items}" ${field(model.id)} @change="${this.carikamar}"/>
         `
     }
 
