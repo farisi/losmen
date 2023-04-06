@@ -3,6 +3,7 @@ import Room from "Frontend/generated/net/myapp/application/data/entity/Room";
 import Transaction from "Frontend/generated/net/myapp/application/data/entity/Transaction";
 import { makeAutoObservable, observable, runInAction } from "mobx";
 import { transactionStore, uiStore } from "./app-store";
+import TransactionModel from "Frontend/generated/net/myapp/application/data/entity/TransactionModel";
 
 
 export class TransactionStore {
@@ -33,6 +34,13 @@ export class TransactionStore {
             this.rooms = data
             this.occupied = dataOccopied;
         });
+    }
+
+    editNew() {
+        this.transaction = TransactionModel.createEmptyValue();
+    }
+    cancelEdit(){
+        this.transaction=null;
     }
 
     async saveTransaction(transaction: Transaction){

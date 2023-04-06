@@ -3,8 +3,9 @@ import { View } from "../view";
 import { html } from "lit";
 import '@vaadin/text-field'
 import TransactionModel from "Frontend/generated/net/myapp/application/data/entity/TransactionModel";
-import { Binder } from "@hilla/form";
+import { Binder, field } from "@hilla/form";
 import { transactionStore } from "Frontend/stores/app-store";
+import { checkOutStore } from "./check-out-store";
 
 @customElement('checking-out')
 export class CheckingOut extends View {
@@ -30,16 +31,21 @@ export class CheckingOut extends View {
 
     render() {
         const {model} = this.binder;
-        return html`
-            <vaadin-text-field  label="Nama" ${model.name} readonly></vaadin-text-field>
-            <vaadin-text-field  label="No Identitas" ${model.carid} readonly></vaadin-text-field>
-            <vaadin-date-time-picker label="Cek In Pada" ${model.check_in_at} readonly></vaadin-date-time-picker>
+
+        return html `
+            <vaadin-text-field  label="Nama" ${field(model.name)} readonly></vaadin-text-field>
+            <vaadin-text-field  label="No Identitas" ${field(model.carid)} readonly ></vaadin-text-field>
+            <vaadin-date-time-picker label="Cek In Pada" ${field(model.check_in_at)} ></vaadin-date-time-picker>
 
             <div class="flex gap-s">
                 <vaadin-button theme="primary">Save</vaadin-button>
-                <vaadin-button theme="error">Delete</vaadin-button>
-                <vaadin-button theme="tertiary">Cancel</vaadin-button>
+                <vaadin-button theme="tertiary" @click="${this.cancel}">Cancel</vaadin-button>
             </div>
         `
+    }
+
+    cancel(){
+        transactionStore.cancelEdit();
+        checkOutStore.cancel();
     }
 }
