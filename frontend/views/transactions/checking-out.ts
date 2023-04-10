@@ -35,13 +35,18 @@ export class CheckingOut extends View {
         return html `
             <vaadin-text-field  label="Nama" ${field(model.name)} readonly></vaadin-text-field>
             <vaadin-text-field  label="No Identitas" ${field(model.carid)} readonly ></vaadin-text-field>
-            <vaadin-date-time-picker label="Cek In Pada" ${field(model.check_in_at)} ></vaadin-date-time-picker>
+            <vaadin-date-time-picker label="Cek In Pada" ${field(model.check_in_at)} readonly></vaadin-date-time-picker>
+            <vaadin-date-time-picker label="Check Out Pada" ${field(model.check_out_at)} ></vaadin-date-time-picker>
 
             <div class="flex gap-s">
-                <vaadin-button theme="primary">Save</vaadin-button>
+                <vaadin-button theme="primary" @click="${this.simpan}">Save</vaadin-button>
                 <vaadin-button theme="tertiary" @click="${this.cancel}">Cancel</vaadin-button>
             </div>
         `
+    }
+
+    async simpan(){
+        await this.binder.submitTo(checkOutStore.simpan);
     }
 
     cancel(){

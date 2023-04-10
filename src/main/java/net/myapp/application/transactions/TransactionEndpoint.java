@@ -6,7 +6,6 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import dev.hilla.Endpoint;
 import dev.hilla.Nonnull;
-import net.myapp.application.data.entity.Room;
 import net.myapp.application.data.entity.Transaction;
 
 @Endpoint
@@ -30,8 +29,15 @@ public class TransactionEndpoint {
     }
 
     @Nonnull
+    public Transaction checkout(@Nonnull Transaction transaction){
+        return trSrv.checkout(transaction);
+    }
+
+    @Nonnull
     public Transaction getRoomBooked(Long roomid){
-        return trSrv.getRoomBooked(roomid);
+        Transaction tr = trSrv.getRoomBooked(roomid);
+        System.out.println("test print get Room booked " + tr.getName());
+        return tr;
     }
 
     public void remove(@Nonnull Transaction transaction){

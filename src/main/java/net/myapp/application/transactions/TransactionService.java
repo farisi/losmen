@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import dev.hilla.Nonnull;
 import net.myapp.application.data.entity.Room;
 import net.myapp.application.data.entity.RoomStatus;
 import net.myapp.application.data.entity.Transaction;
@@ -42,5 +43,13 @@ public class TransactionService {
 
     public Transaction getRoomBooked(Long roomid) {
         return trRepo.findBookedByRoom(roomid);
+    }
+
+    public @Nonnull Transaction checkout(Transaction transaction) {
+        Room room = roomRepo.findById(transaction.getRoom().getId()).orElseThrow(() -> new RuntimeException(
+            "Could not find Company with ID " + transaction.getRoom().getId()));
+        room.setStatus(RoomStatus.Vacant);
+        transaction.setRoom(room);
+        return trRepo.save(transaction);
     }
 }

@@ -8,7 +8,13 @@ import { checkOutStore } from "./check-out-store";
 import { transactionStore } from "Frontend/stores/app-store";
 
 import '@vaadin/select'
-import { runInAction } from "mobx";
+import { selectRenderer } from '@vaadin/select/lit.js';
+import { comboBoxRenderer } from '@vaadin/combo-box/lit.js';
+import type { ComboBoxLitRenderer } from '@vaadin/combo-box/lit.js';
+import '@vaadin/combo-box';
+import { ComboBoxValueChangedEvent } from "@vaadin/combo-box";
+import { TransactionStore } from "Frontend/stores/transaction-store";
+import Room from "Frontend/generated/net/myapp/application/data/entity/Room";
 
 @customElement('searching-out')
 export class SearchOut extends View {
@@ -20,14 +26,6 @@ export class SearchOut extends View {
 
     constructor(){
         super();
-        runInAction(() => {
-            if(checkOutStore.selectedRoom){
-                this.binder.read(checkOutStore.selectedRoom)
-            }
-            else {
-                this.binder.reset();
-            }
-        })
     }
 
     connectedCallback(): void {
@@ -36,43 +34,30 @@ export class SearchOut extends View {
         console.log("connect searching out")
     }
 
-    disconnectedCallback(){
-        super.disconnectedCallback();
-        console.log('disconnect searching out');
-    }
-
-    adoptedCallback(){
-        console.log('adopted searching out')
-    }
-    
-    attributeChangedCallback(){
-        console.log(" attribute change searching out")
-    }
-
     render(){
         const {model} = this.binder
         return html `
-            <div class="vaadin-select m-m">
-                <div class="vaadin-button-container" style="display:'inline-flex'">
-                    <label for="room" style="display:block">Kamar</label>
-                    <select id="room" class="select input" ${field(model.id)} @change="${this.carikamar}" style="width:50rem">
-                        <option value="0">Silahkan Pilih Kamar</option>
-                        ${transactionStore.occupied.map((tr)=> html`<option value="${tr.id}">${tr.number + ' ' + tr.name}</option>`)}
-                    </select>
-                </div>
-            </div>        `
+        <vaadin-combo-box .items=${transactionStore.occupied} item-value-path="id" item-label-path="name"
+         ${field(model.id)} @change="${this.carikamar}"
+         ${comboBoxRenderer(this.renderer, [])}
+         ></vaadin-combo-box>    
+            `
     }
 
-    // async firstUpdated() {
-    //     const rooms =  transactionStore.occupied;
-    //     this.items = rooms.map((room) => ({
-    //       label: `${room.number} ${room.name}`,
-    //       value: `${room.id}`,
-    //     }));
-    //     this.items.unshift({label:'Silahkan pilih kamar',value:"0"});
-    // }
+    private renderer: ComboBoxLitRenderer<Room> = (person) => html`
+    <div style="display: flex;">
+      
+      <div>
+        ${person.number}
+        <div style="font-size: var(--lumo-font-size-s); color: var(--lumo-secondary-text-color);">
+        ${person.name}
+        </div>
+      </div>
+    </div>
+  `;
     
     async carikamar(){
-        this.binder.submitTo(checkOutStore.searchRoom) 
+        await this.binder.submitTo(checkOutStore.searchRoom) 
+        this.binder.clear();
     }
 }

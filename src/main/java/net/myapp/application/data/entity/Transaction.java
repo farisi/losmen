@@ -1,6 +1,7 @@
 package net.myapp.application.data.entity;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,10 +15,10 @@ import jakarta.persistence.Table;
 public class Transaction extends AbstractEntity  {
 
     @Column(columnDefinition="TIMESTAMP")
-    private Timestamp check_in_at;
+    private LocalDateTime check_in_at;
 
     @Column(columnDefinition="TIMESTAMP")
-    private Timestamp check_out_at;
+    private LocalDateTime check_out_at;
     
     private String name;
     private String carid;
@@ -29,16 +30,16 @@ public class Transaction extends AbstractEntity  {
     @ManyToOne
     private Room room;
 
-    public Timestamp getCheck_in_at() {
+    public LocalDateTime getCheck_in_at() {
         return check_in_at;
     }
-    public void setCheck_in_at(Timestamp check_in_at) {
+    public void setCheck_in_at(LocalDateTime check_in_at) {
         this.check_in_at = check_in_at;
     }
-    public Timestamp getCheck_out_at() {
+    public LocalDateTime getCheck_out_at() {
         return check_out_at;
     }
-    public void setCheck_out_at(Timestamp check_out_at) {
+    public void setCheck_out_at(LocalDateTime check_out_at) {
         this.check_out_at = check_out_at;
     }
     public String getName() {

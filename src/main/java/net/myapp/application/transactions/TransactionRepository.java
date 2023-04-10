@@ -7,6 +7,6 @@ import net.myapp.application.data.entity.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction,Long>{
 
-    @Query("SELECT t FROM Transaction t join Room r WHERE r.id =:roomid and t.check_out_at is null ")
+    @Query("SELECT t FROM Transaction t join Room r WHERE t.room.id =:roomid and t.check_out_at is null")
     Transaction findBookedByRoom(@Param("roomid") Long roomid);   
 }

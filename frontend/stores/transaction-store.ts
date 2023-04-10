@@ -43,6 +43,23 @@ export class TransactionStore {
         this.transaction=null;
     }
 
+    async checkOutRoom(tr: Transaction){
+        try {
+            const saved = await TransactionEndpoint.checkout(tr)
+            this.transaction=null;
+            if(saved){
+                this.saveLocal(saved);
+                uiStore.showSuccess("Checkout berhasil!")
+            }
+            else {
+                uiStore.showError("Checkout gagal!")
+            }
+        }
+        catch(e){
+            uiStore.showError("terjadi kesalahan ");
+        }
+    }
+
     async saveTransaction(transaction: Transaction){
         try {
             const saved = await TransactionEndpoint.save(transaction)
@@ -60,8 +77,13 @@ export class TransactionStore {
     }
 
     async getBookedRoom(rm : Room){
+        try {
         const t = await TransactionEndpoint.getRoomBooked(rm.id);
         this.transaction = t;
+        }
+        catch(e){
+            console.log(e);
+        }
     }
 
     async deleteTransaction(tran : Transaction){
